@@ -1,9 +1,13 @@
 package fr.cnam.partiel;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class NetflixTracker extends JPanel {
     private final DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Titre", "Progression", "Note globale"}, 0);
@@ -23,6 +27,8 @@ public class NetflixTracker extends JPanel {
         // Create the table
         final JTable table = new JTable(this.tableModel);
         // TODO (Partie 2) Il faudrait que la table affiche les séries présentes dans le catalogue (pensez à factoriser)
+        /*table.add rorws data*/
+
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setFillsViewportHeight(true);
         final DefaultTableCellRenderer centering = new DefaultTableCellRenderer();
@@ -44,6 +50,15 @@ public class NetflixTracker extends JPanel {
         // Progression control panel
         final JPanel progressionPane = new JPanel();
         // TODO (Partie 2) Codez ici la zone de contrôle de la progression d'une série
+        final JPanel progressionSeriesPane = new JPanel();
+        final JLabel notePane = new JLabel("Note: ");
+        final JTextField noteField = new JTextField(5);
+        final JButton noteIncButton = new JButton("+1");
+
+        progressionSeriesPane.add(notePane);
+        progressionSeriesPane.add(noteField);
+        progressionSeriesPane.add(noteIncButton);
+
 
         // New series control panel
         final JPanel newSeriesPane = new JPanel();
@@ -64,6 +79,7 @@ public class NetflixTracker extends JPanel {
 
         // Put the control panels at the bottom of the frame
         bottomHalf.add(new JSeparator());
+        bottomHalf.add(progressionSeriesPane);
         bottomHalf.add(progressionPane);
         bottomHalf.add(newSeriesPane);
         this.add(bottomHalf, BorderLayout.PAGE_END);
