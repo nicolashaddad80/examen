@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class NetflixTracker extends JPanel {
@@ -28,6 +29,15 @@ public class NetflixTracker extends JPanel {
         final JTable table = new JTable(this.tableModel);
         // TODO (Partie 2) Il faudrait que la table affiche les séries présentes dans le catalogue (pensez à factoriser)
         /*table.add rorws data*/
+        Iterator<Series> itCatalog= this.catalog.iterator();
+
+        while(itCatalog.hasNext()) {
+            Series uneSerie= itCatalog.next();
+            String titreSerie= uneSerie.getName();
+            int progressionSerie=uneSerie.getProgression();
+            double noteGlbSerie=uneSerie.getScore();
+            tableModel.addRow(new Object[] { titreSerie, progressionSerie, noteGlbSerie});
+        }
 
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setFillsViewportHeight(true);
