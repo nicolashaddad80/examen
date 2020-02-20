@@ -30,6 +30,10 @@ public class SeriesImpl implements Series {
         return this.progression;
     }
 
+    public void incrementEpisode(){
+        this.progression++;
+    }
+
     @Override
     public double getScore() {
         return this.score;
@@ -37,7 +41,7 @@ public class SeriesImpl implements Series {
 
     @Override
     public void watch(double score) {
-
+        this.progression++;
         this.score=score;
 
     }

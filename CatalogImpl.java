@@ -29,4 +29,5 @@ public class CatalogImpl extends HashMap<String, Series> implements Catalog {
     public Iterator<Series> iterator() {
         return this.values().iterator();
     }
+
 }

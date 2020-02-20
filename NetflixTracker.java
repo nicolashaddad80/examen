@@ -1,14 +1,14 @@
 package fr.cnam.partiel;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
-import java.util.Vector;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class NetflixTracker extends JPanel {
     private final DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Titre", "Progression", "Note globale"}, 0);
@@ -29,14 +29,14 @@ public class NetflixTracker extends JPanel {
         final JTable table = new JTable(this.tableModel);
         // TODO (Partie 2) Il faudrait que la table affiche les séries présentes dans le catalogue (pensez à factoriser)
         /*table.add rorws data*/
-        Iterator<Series> itCatalog= this.catalog.iterator();
+        Iterator<Series> itCatalog = this.catalog.iterator();
 
-        while(itCatalog.hasNext()) {
-            Series uneSerie= itCatalog.next();
-            String titreSerie= uneSerie.getName();
-            int progressionSerie=uneSerie.getProgression();
-            double noteGlbSerie=uneSerie.getScore();
-            tableModel.addRow(new Object[] { titreSerie, progressionSerie, noteGlbSerie});
+        while (itCatalog.hasNext()) {
+            Series uneSerie = itCatalog.next();
+            String titreSerie = uneSerie.getName();
+            int progressionSerie = uneSerie.getProgression();
+            double noteGlbSerie = uneSerie.getScore();
+            tableModel.addRow(new Object[]{titreSerie, progressionSerie, noteGlbSerie});
         }
 
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -64,6 +64,19 @@ public class NetflixTracker extends JPanel {
         final JLabel notePane = new JLabel("Note: ");
         final JTextField noteField = new JTextField(5);
         final JButton noteIncButton = new JButton("+1");
+        noteIncButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int selectedrow = table.getSelectedRow();
+                    int column = 0;
+                    String selectedSerireName = table.getModel().getValueAt(selectedrow, column).toString();
+                    catalog.getSeriesForName(selectedSerireName).watch(3.2);
+                }catch (ArrayIndexOutOfBoundsException ex){
+                    showMessageDialog(null, "Veuillez Selectionner une serie dans le tableau");
+                }
+            }
+        });
 
         progressionSeriesPane.add(notePane);
         progressionSeriesPane.add(noteField);
@@ -77,6 +90,12 @@ public class NetflixTracker extends JPanel {
         final JLabel epCountLabel = new JLabel("Nb d'eps:");
         final JTextField epCountField = new JTextField(3);
         final JButton addButton = new JButton("+");
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                catalog.newSeries(nameField.getText(),Integer.parseInt((epCountField.getText())));
+            }
+        });
         newSeriesPane.add(nameLabel);
         newSeriesPane.add(nameField);
         newSeriesPane.add(epCountLabel);
@@ -93,7 +112,16 @@ public class NetflixTracker extends JPanel {
         bottomHalf.add(progressionPane);
         bottomHalf.add(newSeriesPane);
         this.add(bottomHalf, BorderLayout.PAGE_END);
+
+
+
+
+
     }
+
+
+
+
 
     private static void createAndShowGUI() {
         // Create and set up the window.
