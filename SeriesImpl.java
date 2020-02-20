@@ -3,8 +3,10 @@ package fr.cnam.partiel;
 public class SeriesImpl implements Series {
     private String seriesName;
 
-    Episode[] muyEpisodes;
+    private Episode[] muyEpisodes;
 
+    private int progression=0;
+    private double score=0;
 
 
     public SeriesImpl(String name, int  epCount) {
@@ -25,16 +27,18 @@ public class SeriesImpl implements Series {
 
     @Override
     public int getProgression() {
-        return 0;
+        return this.progression;
     }
 
     @Override
     public double getScore() {
-        return 0;
+        return this.score;
     }
 
     @Override
     public void watch(double score) {
+
+        this.score=score;
 
     }
 
